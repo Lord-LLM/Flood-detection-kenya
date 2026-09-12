@@ -1,6 +1,6 @@
 <#
   serve.ps1 — a minimal static file server, no Python/Node required.
-  Serves the folder this script lives in (the flood-app root) over HTTP,
+  Serves the folder this script lives in (the repository root) over HTTP,
   with correct MIME types for the file types this PWA uses (.json,
   .geojson, .js, .css, manifest.json, etc). Needed because service
   workers and fetch() of local JSON/GeoJSON require a real http:// origin,

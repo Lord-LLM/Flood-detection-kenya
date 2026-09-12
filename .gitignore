@@ -1,3 +1,3 @@
-flood-app/config/keys.local.js
-flood-app/.dist/
-flood-app/.history/
+config/keys.local.js
+.dist/
+.history/

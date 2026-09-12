@@ -13,7 +13,6 @@ JSON/GeoJSON need an origin).
 **Windows / PowerShell (no Python or Node needed):**
 
 ```powershell
-cd flood-app
 powershell -ExecutionPolicy Bypass -File serve.ps1
 # then open http://localhost:8080 in your browser
 ```
@@ -27,14 +26,13 @@ installed. If port 8080 is busy: `powershell -ExecutionPolicy Bypass -File serve
 **macOS / Linux, or if you have a working Python:**
 
 ```bash
-cd flood-app
 python3 -m http.server 8080
 ```
 
 **If you have Node.js instead:**
 
 ```bash
-npx serve flood-app -l 8080
+npx serve . -l 8080
 ```
 
 Or use VS Code's "Live Server" extension. For deployment, create the filtered
@@ -78,7 +76,7 @@ Mapbox or Google elevation key.
 ## Project structure
 
 ```
-flood-app/
+Flood-terrain-aware/
 ├── index.html            App shell + all screens (tracker, result, checklist)
 ├── manifest.json          PWA manifest (installable, icons, theme color)
 ├── sw.js                  Service worker — offline app shell + forecast cache

@@ -19,6 +19,7 @@ New-Item $outputRoot -ItemType Directory | Out-Null
 Get-ChildItem $appRoot -Force -File -Recurse |
   Where-Object {
     $_.FullName -notlike "$outputRoot*" -and
+    $_.FullName -notlike "$(Join-Path $appRoot '.git\')*" -and
     $_.FullName -notlike "$(Join-Path $appRoot 'config\keys.local.js')" -and
     $_.FullName -notlike "$(Join-Path $appRoot '.history\')*"
   } |

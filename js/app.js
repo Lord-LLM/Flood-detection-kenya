@@ -81,7 +81,6 @@
     addressSuggestions: document.getElementById("address-suggestions"),
     seasonalOutlook: document.getElementById("seasonal-outlook"),
     outlookSummary: document.getElementById("outlook-summary"),
-    buildingType: document.getElementById("building-type"),
     officialSources: document.getElementById("official-sources"),
     officialSourcesList: document.getElementById("official-sources-list"),
   };
@@ -559,10 +558,7 @@
   }
 
   function bootstrapChecklist(loc, riskSummary) {
-    const buildingType = els.buildingType.value;
-    const checklistItems = (buildingType === "business" || buildingType === "school")
-      ? [...config.checklist].sort((a, b) => (a.id === "b23" ? -1 : b.id === "b23" ? 1 : 0))
-      : config.checklist;
+    const checklistItems = config.checklist;
     const { wasReset } = FloodChecklist.render({
       items: checklistItems,
       locationKey: locationKeyFor(loc),
@@ -587,10 +583,6 @@
   }
 
   els.printBtn.addEventListener("click", () => window.print());
-  els.buildingType.addEventListener("change", () => {
-    try { localStorage.setItem("flood-building-type", els.buildingType.value); } catch (e) { /* unavailable */ }
-    if (!els.resultSection.hidden) bootstrapChecklist(lastLocation, lastRiskSummary);
-  });
 
   let lastLocation = null;
   let lastRiskSummary = null;
@@ -788,7 +780,6 @@
       els.configVersion.textContent = "Config unavailable — using defaults";
     }
     updateOfflineBadge();
-    try { els.buildingType.value = localStorage.getItem("flood-building-type") || ""; } catch (e) { /* unavailable */ }
     renderOfficialSources();
     if (mapboxToken()) FloodMap.load(mapboxToken());
     start();

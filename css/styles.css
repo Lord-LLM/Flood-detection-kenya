@@ -353,8 +353,6 @@ main {
   box-shadow: var(--shadow-2);
 }
 .result__precision { color: var(--ink-soft); font-size: 0.85rem; margin-bottom: var(--space-3); }
-.result__building-type-label { font-size: 0.85rem; }
-.result__building-type { max-width: 22rem; }
 .result-skeleton { display: grid; gap: var(--space-3); }
 .result-skeleton[hidden] { display: none; }
 .result__card--loading > *:not(.result-skeleton) { display: none; }

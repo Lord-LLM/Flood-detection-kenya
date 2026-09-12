@@ -48,6 +48,12 @@ intentionally omits `config/keys.local.js`; production builds therefore use
 the documented no-token fallback unless credentials are injected by a separate
 deployment mechanism.
 
+For Vercel, leave **Root Directory** empty and set the build command to
+`node generate-keys.js`. Add the optional `MAPBOX_ACCESS_TOKEN` environment
+variable in the Vercel project settings. The build writes the ignored
+`config/keys.local.js` file expected by the app; when the variable is absent,
+the app keeps its no-token fallback.
+
 Geolocation requires a **secure context** (`https://` or `localhost`) — that's
 a browser rule, not something this app can change.
 

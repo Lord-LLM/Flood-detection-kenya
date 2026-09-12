@@ -352,6 +352,10 @@ main {
   padding: var(--space-4);
   box-shadow: var(--shadow-2);
 }
+.result__change-location {
+  margin-top: 0;
+  margin-bottom: var(--space-3);
+}
 .result__precision { color: var(--ink-soft); font-size: 0.85rem; margin-bottom: var(--space-3); }
 .result-skeleton { display: grid; gap: var(--space-3); }
 .result-skeleton[hidden] { display: none; }
@@ -503,8 +507,6 @@ main {
 .official-sources ul { padding-left: var(--space-5); }
 .official-sources li { margin-bottom: var(--space-1); }
 .official-sources a { color: var(--channel-dark); }
-
-#change-location-btn { margin-top: var(--space-3); }
 
 /* ================= checklist ================= */
 .checklist { margin-top: var(--space-5); }

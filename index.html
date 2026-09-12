@@ -90,6 +90,7 @@
   <!-- ============ 2. RESULT CARD ============ -->
   <section class="result" id="result" hidden aria-labelledby="result-title" aria-live="polite">
     <h2 id="result-title" class="sr-only">Your flood risk</h2>
+    <button type="button" class="btn btn--secondary result__change-location" id="change-location-btn">Change location</button>
     <div class="result__card" id="result-card">
       <div class="result-skeleton" id="result-skeleton" hidden aria-hidden="true">
         <span></span><span></span><span></span>
@@ -139,7 +140,6 @@
       <h3 id="official-sources-title">Check official advisories</h3>
       <ul id="official-sources-list"></ul>
     </section>
-    <button type="button" class="btn btn--text" id="change-location-btn">Change location</button>
   </section>
 
   <!-- ============ Error / retry state ============ -->

@@ -34,8 +34,6 @@
     resultContext: document.getElementById("result-context"),
     resultStale: document.getElementById("result-stale"),
     resultChecked: document.getElementById("result-checked"),
-    shareResultBtn: document.getElementById("share-result-btn"),
-    shareStatus: document.getElementById("share-status"),
     recommendationsList: document.getElementById("recommendations-list"),
     detailsToggle: document.getElementById("result-details-toggle"),
     details: document.getElementById("result-details"),
@@ -324,53 +322,11 @@
     els.resultSection.hidden = false;
   }
 
-  function resultText(tier, location, recommendations) {
-    return [
-      "Flood Watch Kenya",
-      `Location: ${location.label}`,
-      `Risk: ${FloodRisk.TIER_LABELS[tier]}`,
-      "What this means for you:",
-      ...recommendations.slice(0, 2).map((item) => `- ${item}`),
-    ].join("\n");
-  }
-
-  async function copyText(text) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(text);
-      return;
-    }
-    const area = document.createElement("textarea");
-    area.value = text;
-    area.style.position = "fixed";
-    area.style.opacity = "0";
-    document.body.appendChild(area);
-    area.select();
-    document.execCommand("copy");
-    area.remove();
-  }
-
   els.detailsToggle.addEventListener("click", () => {
     const expanded = els.detailsToggle.getAttribute("aria-expanded") === "true";
     els.detailsToggle.setAttribute("aria-expanded", String(!expanded));
     els.details.hidden = expanded;
     els.detailsToggle.textContent = expanded ? "Show details" : "Hide details";
-  });
-
-  els.shareResultBtn.addEventListener("click", async () => {
-    const tier = els.resultCard.dataset.tier;
-    const recommendations = Array.from(els.recommendationsList.querySelectorAll("li")).map((li) => li.textContent);
-    const text = resultText(tier, { label: els.resultLocation.textContent.replace(/^Location: /, "") }, recommendations);
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: "Flood Watch Kenya result", text });
-        els.shareStatus.textContent = "Result shared.";
-      } else {
-        await copyText(text);
-        els.shareStatus.textContent = "Result copied.";
-      }
-    } catch (e) {
-      if (e.name !== "AbortError") els.shareStatus.textContent = "Could not share the result.";
-    }
   });
 
   // ---- Checklist tabs ----------------------------------------------------

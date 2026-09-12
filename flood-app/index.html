@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flood Early Warning &amp; Preparedness Checklist</title>
+<meta name="description" content="Check your flood risk and follow a preparedness checklist for El Ni\u00f1o season in Kenya.">
+<meta name="theme-color" content="#FAFBFC" id="theme-color">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.css">
+<!-- Optional: only needed for building-level search + map. The app still
+  works with the county-level manual fallback when no token is configured. -->
+<script src="config/keys.local.js" onerror="console.warn('No Mapbox token configured - falling back to county-level location only.')"></script>
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.15.0/mapbox-gl.js"></script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="app-header">
+  <div class="app-header__inner">
+    <span class="app-header__mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 2C9 7 5 11 5 15a7 7 0 0 0 14 0c0-4-4-8-7-13z" fill="currentColor"/></svg>
+    </span>
+    <span class="app-header__title">Flood Watch Kenya</span>
+    <span id="offline-badge" class="offline-badge" hidden>Offline</span>
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Dark mode</button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ 1. WORKFLOW TRACKER ============ -->
+  <section class="tracker" id="tracker" aria-label="Checking your flood risk">
+    <button type="button" class="btn btn--primary tracker__locate" id="use-location-btn">Use my location</button>
+    <ol class="tracker__list" id="tracker-list">
+      <li class="tracker__step" data-step="location">
+        <span class="tracker__icon" aria-hidden="true"></span>
+        <span class="tracker__label">Finding your location</span>
+      </li>
+      <li class="tracker__step" data-step="zone">
+        <span class="tracker__icon" aria-hidden="true"></span>
+        <span class="tracker__label">Checking flood map</span>
+      </li>
+      <li class="tracker__step" data-step="terrain">
+        <span class="tracker__icon" aria-hidden="true"></span>
+        <span class="tracker__label">Checking nearby ground</span>
+      </li>
+      <li class="tracker__step" data-step="forecast">
+        <span class="tracker__icon" aria-hidden="true"></span>
+        <span class="tracker__label">Checking rain outlook</span>
+      </li>
+      <li class="tracker__step" data-step="risk">
+        <span class="tracker__icon" aria-hidden="true"></span>
+        <span class="tracker__label">Calculating risk</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ Manual location fallback ============ -->
+  <section class="panel" id="manual-location" hidden aria-labelledby="manual-location-title">
+    <h2 id="manual-location-title" class="panel__title">Set your location</h2>
+    <p class="panel__hint" id="manual-location-hint">We could not find your location. Choose an area below.</p>
+    <form id="manual-location-form">
+      <label class="field-label" for="address-search">Search your address, estate, or landmark</label>
+      <div class="address-search">
+        <input type="text" id="address-search" class="field-input" placeholder="e.g. Kibera, Ngong Road, or a building name" autocomplete="off" aria-describedby="address-search-hint">
+        <ul id="address-suggestions" class="address-suggestions" hidden role="listbox" aria-label="Address suggestions"></ul>
+      </div>
+      <p class="field-hint" id="address-search-hint">Or choose your county below if you do not want to search.</p>
+      <label class="field-label" for="county-select">County</label>
+      <select id="county-select" class="field-select" required>
+        <option value="" disabled selected>Select a county</option>
+      </select>
+      <label class="field-label" for="constituency-select">Constituency <span class="field-label__optional">(optional)</span></label>
+      <select id="constituency-select" class="field-select" disabled>
+        <option value="" selected>Select a constituency</option>
+      </select>
+      <label class="field-label" for="ward-select">Ward <span class="field-label__optional">(optional)</span></label>
+      <select id="ward-select" class="field-select" disabled>
+        <option value="" selected>Select a ward</option>
+      </select>
+      <button type="submit" class="btn btn--primary">Use this location</button>
+    </form>
+  </section>
+
+  <!-- ============ 2. RESULT CARD ============ -->
+  <section class="result" id="result" hidden aria-labelledby="result-title" aria-live="polite">
+    <h2 id="result-title" class="sr-only">Your flood risk</h2>
+    <div class="result__card" id="result-card">
+      <div class="result-skeleton" id="result-skeleton" hidden aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="result__tier" id="result-tier">
+        <span class="result__tier-label" id="result-tier-label">&mdash;</span>
+        <p class="result__tier-description" id="result-tier-description"></p>
+      </div>
+      <p class="result__reason" id="result-reason"></p>
+      <p class="result__location" id="result-location"></p>
+      <p class="result__precision" id="result-location-precision"></p>
+      <label class="field-label result__building-type-label" for="building-type">Location type</label>
+      <select id="building-type" class="field-select result__building-type">
+        <option value="">Choose a location type (optional)</option>
+        <option value="home">Home</option>
+        <option value="school">School</option>
+        <option value="business">Business</option>
+        <option value="other">Other</option>
+      </select>
+      <p class="result__context" id="result-context"></p>
+      <p class="result__stale" id="result-stale" hidden></p>
+      <p class="result__checked" id="result-checked"></p>
+      <section class="recommendations" aria-labelledby="recommendations-title">
+        <h3 id="recommendations-title">What this means for you</h3>
+        <ul id="recommendations-list"></ul>
+      </section>
+      <div class="result__actions">
+        <button type="button" class="btn btn--secondary" id="share-result-btn">Share result</button>
+        <span class="result__share-status" id="share-status" aria-live="polite"></span>
+      </div>
+      <button type="button" class="result__details-toggle" id="result-details-toggle" aria-expanded="false" aria-controls="result-details">
+        Show details
+      </button>
+      <dl class="result__details" id="result-details" hidden>
+        <div><dt>Rainfall forecast (next 24h)</dt><dd id="detail-rainfall">&mdash;</dd></div>
+        <div><dt>Forecast window</dt><dd id="detail-window">&mdash;</dd></div>
+        <div><dt>Mapped flood zone</dt><dd id="detail-zone">&mdash;</dd></div>
+        <div><dt>Local elevation</dt><dd id="detail-elevation">&mdash;</dd></div>
+        <div><dt>Terrain signal</dt><dd id="detail-terrain">&mdash;</dd></div>
+        <div><dt>Nearest mapped water</dt><dd id="detail-water">&mdash;</dd></div>
+        <div><dt>Location used</dt><dd id="detail-location">&mdash;</dd></div>
+        <div><dt>Forecast source</dt><dd id="detail-source">Open-Meteo</dd></div>
+      </dl>
+    </div>
+    <section class="terrain-panel" id="terrain-panel" hidden aria-labelledby="terrain-panel-title">
+      <h3 id="terrain-panel-title">Nearby ground snapshot</h3>
+      <div class="terrain-panel__body">
+        <div class="terrain-panel__map" id="terrain-map" aria-hidden="false"></div>
+        <p class="terrain-panel__summary" id="terrain-summary"></p>
+      </div>
+      <p class="terrain-panel__source">Ground and water map data are estimates, not a survey. See the known gaps in the README.</p>
+    </section>
+    <section class="outlook" id="seasonal-outlook" hidden aria-labelledby="outlook-title">
+      <h3 id="outlook-title">El Niño rain outlook</h3>
+      <p id="outlook-summary"></p>
+      <p class="outlook__source">ECMWF seasonal guidance via Open-Meteo. This is an area outlook, not a local warning.</p>
+    </section>
+    <section class="panel official-sources" id="official-sources" hidden aria-labelledby="official-sources-title">
+      <h3 id="official-sources-title">Check official advisories</h3>
+      <ul id="official-sources-list"></ul>
+    </section>
+    <button type="button" class="btn btn--text" id="change-location-btn">Change location</button>
+  </section>
+
+  <!-- ============ Error / retry state ============ -->
+  <section class="panel panel--error" id="error-panel" hidden aria-live="assertive">
+    <p id="error-message">Something went wrong.</p>
+    <button type="button" class="btn btn--primary" id="retry-btn">Retry</button>
+  </section>
+
+  <!-- ============ 3. CHECKLIST ============ -->
+  <section class="checklist" id="checklist-section" hidden aria-labelledby="checklist-title">
+    <div class="checklist__header">
+      <h2 id="checklist-title" class="section-title">Preparedness checklist</h2>
+      <p class="checklist__progress" id="checklist-progress">0 of 23 done</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Checklist phase">
+      <button class="tabs__tab" role="tab" id="tab-before" aria-controls="panel-before" aria-selected="true" data-phase="Before">Before</button>
+      <button class="tabs__tab" role="tab" id="tab-during" aria-controls="panel-during" aria-selected="false" tabindex="-1" data-phase="During">During</button>
+      <button class="tabs__tab" role="tab" id="tab-after" aria-controls="panel-after" aria-selected="false" tabindex="-1" data-phase="After">After</button>
+    </div>
+
+    <div class="tabpanel" id="panel-before" role="tabpanel" aria-labelledby="tab-before">
+      <ul class="checklist__list" id="list-before"></ul>
+    </div>
+    <div class="tabpanel" id="panel-during" role="tabpanel" aria-labelledby="tab-during" hidden>
+      <ul class="checklist__list" id="list-during"></ul>
+    </div>
+    <div class="tabpanel" id="panel-after" role="tabpanel" aria-labelledby="tab-after" hidden>
+      <ul class="checklist__list" id="list-after"></ul>
+    </div>
+
+    <button type="button" class="btn btn--secondary" id="print-btn">Print checklist &amp; risk summary</button>
+  </section>
+
+  <!-- ============ Print-only summary ============ -->
+  <section class="print-only" id="print-summary" aria-hidden="true"></section>
+
+</main>
+
+<footer class="app-footer">
+  <p>Data is processed on your device only and never sent anywhere except to fetch forecast, elevation, and water-feature data for your coordinates. <span id="config-version">Config v&mdash;</span></p>
+</footer>
+
+<script src="js/pip.js"></script>
+<script src="js/risk.js"></script>
+<script src="js/terrain.js"></script>
+<script src="js/waterway.js"></script>
+<script src="js/recommendations.js"></script>
+<script src="js/checklist.js"></script>
+<script src="js/geolocation.js"></script>
+<script src="js/geocoding.js"></script>
+<script src="js/map.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

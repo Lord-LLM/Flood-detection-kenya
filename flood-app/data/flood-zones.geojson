@@ -1,0 +1,49 @@
+{
+  "type": "FeatureCollection",
+  "metadata": {
+    "note": "SAMPLE / PLACEHOLDER DATA ONLY. These are simplified illustrative boxes, not surveyed flood boundaries. Replace this file with the official versioned GeoJSON published by the DRR team (SRS Assumption A1) before using this app for real decisions.",
+    "version": "0.0.0-sample"
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Budalangi floodplain (Busia) — sample", "source": "placeholder" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [34.05, 0.35], [34.20, 0.35], [34.20, 0.55], [34.05, 0.55], [34.05, 0.35]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Tana River Delta (Tana River County) — sample", "source": "placeholder" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [39.80, -2.60], [40.20, -2.60], [40.20, -1.20], [39.80, -1.20], [39.80, -2.60]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Nyando basin (Kisumu/Nyando) — sample", "source": "placeholder" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [34.68, -0.20], [34.85, -0.20], [34.85, -0.02], [34.68, -0.02], [34.68, -0.20]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Nairobi riverine low-lying areas — sample", "source": "placeholder" },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [36.79, -1.32], [36.87, -1.32], [36.87, -1.26], [36.79, -1.26], [36.79, -1.32]
+        ]]
+      }
+    }
+  ]
+}

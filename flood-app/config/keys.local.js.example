@@ -1,0 +1,4 @@
+// Copy this file to keys.local.js for local Mapbox development only.
+window.FLOOD_CONFIG_KEYS = {
+  MAPBOX_ACCESS_TOKEN: "PASTE_YOUR_PUBLIC_MAPBOX_TOKEN_HERE"
+};

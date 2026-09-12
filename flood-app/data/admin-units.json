@@ -1,0 +1,50 @@
+{
+  "counties": [
+    {
+      "name": "Nairobi",
+      "lat": -1.286,
+      "lng": 36.817,
+      "constituencies": [
+        {
+          "name": "Westlands",
+          "lat": -1.267,
+          "lng": 36.807,
+          "wards": [
+            { "name": "Parklands/Highridge", "lat": -1.262, "lng": 36.812 },
+            { "name": "Kangemi", "lat": -1.267, "lng": 36.773 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mombasa",
+      "lat": -4.043,
+      "lng": 39.668,
+      "constituencies": [
+        {
+          "name": "Mvita",
+          "lat": -4.054,
+          "lng": 39.663,
+          "wards": [
+            { "name": "Mji wa Kale/Makadara", "lat": -4.061, "lng": 39.668 }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Kisumu",
+      "lat": -0.102,
+      "lng": 34.761,
+      "constituencies": [
+        {
+          "name": "Kisumu Central",
+          "lat": -0.103,
+          "lng": 34.762,
+          "wards": [
+            { "name": "Railways", "lat": -0.108, "lng": 34.758 }
+          ]
+        }
+      ]
+    }
+  ]
+}

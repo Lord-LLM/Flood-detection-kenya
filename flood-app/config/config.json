@@ -1,0 +1,91 @@
+{
+  "version": "1.0.0",
+  "publishedAt": "2026-09-09",
+  "notes": "Sample/demo config. In production this file is owned by the DRR/ops team and deployed independently of app code, per SRS Section 6 (Change Control) and FR-4.2. The active version string above is shown in the app footer for auditability.",
+
+  "thresholds": {
+    "yellow": 20,
+    "orange": 50,
+    "red": 100
+  },
+
+  "zoneAdjustment": true,
+
+  "officialSources": [
+    { "name": "Kenya Meteorological Department", "url": "https://meteo.go.ke" },
+    { "name": "National Disaster Management Unit (NDMA)", "url": "https://ndma.go.ke" },
+    { "name": "Kenya Red Cross", "url": "https://www.redcross.or.ke" }
+  ],
+
+  "terrain": {
+    "enabled": true,
+    "sampleRadiusM": 200,
+    "sampleCount": 8,
+    "lowPointReliefM": -1.5,
+    "elevatedReliefM": 1.5,
+    "flatSlopePercent": 2,
+    "steepSlopePercent": 8,
+    "notes": "Elevation grid sampled from Open-Meteo's public elevation API (no key, no DEM file). reliefM = centre elevation minus the average of 8 ring points sampled sampleRadiusM metres out; negative = local bowl. slopePercent = steepest ring point vs centre, as a percent grade. A flat local bowl steps the tier up one; a steep, elevated spot steps it down one. See js/terrain.js for the full decision table."
+  },
+
+  "waterProximity": {
+    "enabled": true,
+    "nearM": 150,
+    "searchRadiusM": 600,
+    "notes": "Nearest mapped river/stream/water body from OpenStreetMap (Overpass API), used as a positive-only signal: a feature within nearM steps the tier up one. No nearby feature found is treated as 'unknown', not 'safe', because OSM waterway coverage is incomplete in many rural areas. See js/waterway.js."
+  },
+
+  "countyRiskProfiles": {
+    "Baringo": "high-vulnerability",
+    "West Pokot": "high-vulnerability",
+    "Garissa": "high-vulnerability",
+    "Tana River": "high-vulnerability",
+    "Nairobi": "urban-hotspot",
+    "Mombasa": "urban-hotspot",
+    "Kisumu": "urban-hotspot",
+    "Bungoma": "high-vulnerability",
+    "Busia": "high-vulnerability",
+    "Kakamega": "high-vulnerability",
+    "Siaya": "high-vulnerability",
+    "Vihiga": "high-vulnerability",
+    "Homa Bay": "high-vulnerability",
+    "Migori": "high-vulnerability",
+    "Kisii": "high-vulnerability",
+    "Nyamira": "high-vulnerability",
+    "Kericho": "high-vulnerability",
+    "Nandi": "high-vulnerability",
+    "Uasin Gishu": "high-vulnerability",
+    "Trans Nzoia": "high-vulnerability",
+    "Elgeyo-Marakwet": "high-vulnerability",
+    "Kilifi": "coastal-vulnerability",
+    "Kwale": "coastal-vulnerability",
+    "Lamu": "coastal-vulnerability",
+    "Taita-Taveta": "coastal-vulnerability"
+  },
+
+  "checklist": [
+    { "id": "b1", "phase": "Before", "text": "Fix the roof: loose sheets, missing nails, rusted ridges, and broken tiles." },
+    { "id": "b2", "phase": "Before", "text": "Clear every drain, gutter, culvert, and trench you are responsible for. Wear gloves and closed boots." },
+    { "id": "b3", "phase": "Before", "text": "Cut back trees over buildings, power lines, or places where children play. Use a professional for large limbs or trees near power lines." },
+    { "id": "b4", "phase": "Before", "text": "Walk your evacuation route in daylight and at night with the whole household or team." },
+    { "id": "b5", "phase": "Before", "text": "Ask three long-term neighbours how high floodwater has reached and mark that line on a wall." },
+    { "id": "b6", "phase": "Before", "text": "Protect your water source: raise and cover well and borehole heads and prevent contamination from latrines or animal pens." },
+    { "id": "b7", "phase": "Before", "text": "List people who need help to move and assign a named helper to each one." },
+    { "id": "b8", "phase": "Before", "text": "Refill 30 days of chronic medicines, including blood pressure, diabetes, epilepsy, ARVs, TB, and mental-health medication." },
+    { "id": "b9", "phase": "Before", "text": "Service the vehicle, generator, water pump, and boat. Fuel up and test-run the generator under load." },
+    { "id": "b10", "phase": "Before", "text": "Photograph IDs, title deeds, birth certificates, school records, and medical records and store copies outside the flood zone." },
+    { "id": "b11", "phase": "Before", "text": "Have raincoats, umbrellas, gumboots, buckets, and zip-lock bags ready." },
+    { "id": "b12", "phase": "Before", "text": "Assemble a 72-hour supply kit with waterproofed clothes, food, water, medicines, sanitary needs, and cleaning items." },
+    { "id": "b13", "phase": "Before", "text": "Fill and seal drinking-water reserves: at least 3 litres per person per day for 3 days." },
+    { "id": "b14", "phase": "Before", "text": "Buy water-treatment supplies such as chlorine tablets or solution, or fuel for boiling." },
+    { "id": "b15", "phase": "Before", "text": "Get a torch and a battery or wind-up radio." },
+    { "id": "b16", "phase": "Before", "text": "Charge power banks, buy phone credit, and keep mobile-money access plus small-denomination cash." },
+    { "id": "b17", "phase": "Before", "text": "Put passports, deeds, certificates, and exam slips in a sealed plastic bag or box." },
+    { "id": "b18", "phase": "Before", "text": "Restock the first-aid kit and add ORS sachets and zinc for children." },
+    { "id": "b19", "phase": "Before", "text": "Hang or repair mosquito nets now." },
+    { "id": "b20", "phase": "Before", "text": "Set up a communication tree and choose one out-of-area relative for network failures." },
+    { "id": "b21", "phase": "Before", "text": "Agree two meeting points: one just outside the house and one on high ground outside the neighbourhood." },
+    { "id": "b22", "phase": "Before", "text": "For livestock, identify high ground, arrange fodder, mark animals, and agree who will move them." },
+    { "id": "b23", "phase": "Before", "text": "Businesses and schools: decide the closure trigger in writing and tell everyone what it is." }
+  ]
+}
